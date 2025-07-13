@@ -67,10 +67,15 @@ def dime_calculator(debt, income, years, mortgage, edu_cost, num_children):
 st.set_page_config(page_title="Smart Budgeting Tool", layout="wide")
 st.title("💼 Smart Budgeting and Life Planning App")
 
-# User Email & Month
 if "email" not in st.session_state:
-    st.session_state.email = st.text_input("Enter your email to begin:", "")
-if not st.session_state.email:
+    with st.form("user_email_form"):
+        email_input = st.text_input("Enter your email to begin:")
+        submitted = st.form_submit_button("Start")
+        if submitted and email_input:
+            st.session_state.email = email_input
+
+if "email" not in st.session_state:
+    st.warning("Please enter your email to start.")
     st.stop()
 
 today = datetime.today()
