@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import datetime
 import bcrypt
-import database
+import database as db
 
 # ---------------------------
 # App Initialization
