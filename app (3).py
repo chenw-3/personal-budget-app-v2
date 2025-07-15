@@ -99,7 +99,7 @@ elif page == "Add Expense":
 # ---------------------------
 elif page == "View/Edit Expenses":
     st.header("✏️ Edit Your Expenses")
-    rows = database.get_expenses(user_id, current_month)
+    rows = db.get_expenses(user_id, current_month)
     if not rows:
         st.info("No expenses logged yet.")
     else:
@@ -114,11 +114,11 @@ elif page == "View/Edit Expenses":
                 new_amt = st.number_input("Amount", value=row["amount"], key=f"edit_{row['id']}")
             with col3:
                 if st.button("💾", key=f"save_{row['id']}"):
-                    database.update_expense(row["id"], new_amt)
+                    db.update_expense(row["id"], new_amt)
                     st.success("Updated.")
                     st.rerun()
                 if st.button("🗑️", key=f"del_{row['id']}"):
-                    database.delete_expense(row["id"])
+                    db.delete_expense(row["id"])
                     st.warning("Deleted.")
                     st.rerun()
 
