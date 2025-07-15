@@ -99,11 +99,12 @@ elif page == "Add Expense":
 # ---------------------------
 elif page == "View/Edit Expenses":
     st.header("✏️ Edit Your Expenses")
-    rows = db.get_expenses(user_id, current_month)
+    rows = database.get_expenses(user_id, current_month)
     if not rows:
         st.info("No expenses logged yet.")
     else:
-        df = pd.DataFrame(rows)
+        # ✅ FIX: Convert each row to dictionary
+        df = pd.DataFrame([dict(r) for r in rows])
         df["Edit"] = df["id"].apply(lambda x: f"edit_{x}")
         for _, row in df.iterrows():
             col1, col2, col3 = st.columns([3, 2, 1])
@@ -113,11 +114,11 @@ elif page == "View/Edit Expenses":
                 new_amt = st.number_input("Amount", value=row["amount"], key=f"edit_{row['id']}")
             with col3:
                 if st.button("💾", key=f"save_{row['id']}"):
-                    db.update_expense(row["id"], new_amt)
+                    database.update_expense(row["id"], new_amt)
                     st.success("Updated.")
                     st.rerun()
                 if st.button("🗑️", key=f"del_{row['id']}"):
-                    db.delete_expense(row["id"])
+                    database.delete_expense(row["id"])
                     st.warning("Deleted.")
                     st.rerun()
 
